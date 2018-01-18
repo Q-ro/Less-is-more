@@ -56,7 +56,6 @@ function inGame.update(dt)
 		if spawnTimer >= 2 then
 
 			for i = 0, math.floor(spawntRate) -1, 1 do
-				--text = "SPAEN RATE " ..i
 				SpawnBubble()
 			end
 
@@ -238,6 +237,10 @@ function SpawnBubble()
 
 end
 
+function SpawnText(x,y)
+	lg.printf("SPEED DOWN, SCORE UP ", screenWidth,x,y,"center")
+end
+
 -------------------------------------------------------------------------------
 -- Physics world callbacks
 -------------------------------------------------------------------------------
@@ -260,19 +263,16 @@ function beginContact(a, b, coll)
 		bubbleFix = b
 	end
    
-	-- If enemy collides with bullet
+	-- If player collides with bullet
 	if bubbleFix and playerFix then
 		
-		-- Set false to both userDatas. That will execute self:destroy() in
-		-- bullet object and set animation to self.anm_death in enemy object, 
-		-- after animation playing end will executed self.destroy() for enemy
+
 		bubbleFix:setUserData(false)
 		player:updateSpeed(-0.1)
+
+		SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 		score = score + 1
-		--enemy:setUserData(false)
-		--killed = killed + 1
 	end
-	-- Else one of variables will nil and colliding will not processed
    end
    
    function endContact(a, b, coll)
