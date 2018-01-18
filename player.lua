@@ -19,6 +19,7 @@ function Player.create(posX,posY,maxMoveSpeed)
 
     self.x = posX;
     self.y = posY;
+    self.maxMoveSpeed = maxMoveSpeed
     self.currentMoveSpeed = maxMoveSpeed
     self.maxMoveSpeed = maxMoveSpeed
     
@@ -68,7 +69,7 @@ function Player:update(dt)
 end
 
 function Player:updateSpeed(x)
-    self.currentMoveSpeed = clamp(self.currentMoveSpeed*10 + x*10, 0, 25)/10
+    self.currentMoveSpeed = clamp(self.currentMoveSpeed*10 + x*10, 0, self.maxMoveSpeed*10)/10
 
 end
 

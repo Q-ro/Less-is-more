@@ -21,6 +21,7 @@ local screenWidth = lg.getWidth()
 local screenHeight = lg.getHeight()
 
 bubbles = {}
+bubblesToDestroy = {}
 inGame = {}
 
 ---- Region Love functions
@@ -32,7 +33,7 @@ function inGame.enter()
 	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	map = Map.create()
-	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.5)
+	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,3.0)
 
 	
 	-- SpawnBubble()
@@ -76,10 +77,18 @@ function inGame.update(dt)
 					if bubbles[i]:hasFixture() then
 						bubbles[i]:update(dt)
 					else
-						table.remove(bubbles, i)
+						table.insert(bubblesToDestroy, i)
 						--bubbles[i] = nil
 					end
 
+				end
+			end
+		end
+
+		if #bubblesToDestroy > 1 then
+			for i = 0, #bubblesToDestroy + 1, 1 do
+				if bubbles[i] ~= nil then
+					bubblesToDestroy[i] = nil
 				end
 			end
 		end
