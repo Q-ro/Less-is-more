@@ -11,12 +11,13 @@ PoppedBubble.__index = Bubble
 local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
-function PoppedBubble.create(posX,posY)
+function PoppedBubble.create(posX,posY,duration)
 
     local self = setmetatable({}, Bubble)
 
     self.x = posX
     self.y = posY
+    self.duration = duration
     self.currentAlpha = 0
 
     return self
@@ -30,6 +31,17 @@ function PoppedBubble:draw()
     lg.pop()
 end
 
-function scoreScreen.update(dt)
-    self.currentAlpha
+function scoreScreen:update(dt)
+    self.currentAlpha = clamp(self.currentAlpha+1,0,255)
+    
+    if self.currentAlpha >= 255 then
+
+        self.duration = duration - 1 * dt
+
+        if self.duration <= 0 then
+            self.currentAlpha = clamp(self.currentAlpha-1,0,255)
+        end
+
+    end
+    
 end
