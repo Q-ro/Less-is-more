@@ -11,5 +11,17 @@ PoppedBubble.__index = Bubble
 local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
-function Bubble.create(posX,posY)
+function PoppedBubble.create(posX,posY)
+
+    local self = setmetatable({}, Bubble)
+
+    self.x = posX
+    self.y = posY
+
+    return self
+
+end
+
+function PoppedBubble:draw()
+    lg.printf("SCORE UP\nSPEED DOWN")
 end

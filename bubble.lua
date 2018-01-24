@@ -12,7 +12,7 @@ local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
 function Bubble.create(posX,posY,moveSpeed, moveDir, bubbleIndex)
-    --local self = Utils.ShallowCopy(Bubble)
+    
     local self = setmetatable({}, Bubble)
 
     self.x = posX
