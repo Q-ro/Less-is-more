@@ -1,7 +1,7 @@
 --	#############################################
 --	# Title:		map.lua						#
 --	# Author:		Andres Mrad (Q-ro)			#
---	# Date:			Dec 01 2015					#
+--	# Date:			Dec 01 2017					#
 --	# Description:	Loads and sets up map tiles	#
 --	#############################################
 
