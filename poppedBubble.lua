@@ -17,11 +17,19 @@ function PoppedBubble.create(posX,posY)
 
     self.x = posX
     self.y = posY
+    self.currentAlpha = 0
 
     return self
 
 end
 
 function PoppedBubble:draw()
-    lg.printf("SCORE UP\nSPEED DOWN")
+    lg.push()
+    lg.SetColor(50,150,20,self.currentAlpha)
+    lg.printf("SCORE UP\nSPEED DOWN", self.x, self.y,50,"center")
+    lg.pop()
+end
+
+function scoreScreen.update(dt)
+    self.currentAlpha
 end
