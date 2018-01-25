@@ -31,7 +31,7 @@ function PoppedBubble:draw()
     lg.pop()
 end
 
-function scoreScreen:update(dt)
+function PoppedBubble:update(dt)
     self.currentAlpha = clamp(self.currentAlpha+1,0,255)
     
     if self.currentAlpha >= 255 then

@@ -21,6 +21,7 @@ local screenWidth = lg.getWidth()
 local screenHeight = lg.getHeight()
 
 bubbles = {}
+poppedBubbles = {}
 bubblesToDestroy = {}
 inGame = {}
 
@@ -84,9 +85,19 @@ function inGame.update(dt)
 			end
 		end
 
+		if #poppedBubbles > 1 then
+			for i = 1,  #poppedBubbles + 1, 1 do
+				if poppedBubbles[i] ~= nil then
+					--if bubbles[i]:hasFixture() then
+						poppedBubbles[i]:update()
+					--end
+				end
+			end
+		end
+
 		if #bubblesToDestroy > 1 then
 			for i = 0, #bubblesToDestroy + 1, 1 do
-				if bubbles[i] ~= nil then
+				if bubblesToDestroy[i] ~= nil then
 					bubblesToDestroy[i] = nil
 				end
 			end
@@ -120,7 +131,18 @@ function inGame.draw()
 			end
 		end
 	end
-		DrawScore()
+
+	if #poppedBubbles > 1 then
+		for i = 1,  #poppedBubbles + 1, 1 do
+			if poppedBubbles[i] ~= nil then
+				--if bubbles[i]:hasFixture() then
+					poppedBubbles[i]:draw()
+				--end
+			end
+		end
+	end
+
+	DrawScore()
 
 		--lg.setColor(0, 0, 255)
 		--love.graphics.print(text, 50, 50)
@@ -237,8 +259,8 @@ function SpawnBubble()
 
 end
 
-function SpawnText(x,y)
-	lg.printf("SPEED DOWN, SCORE UP ", screenWidth,x,y,"center")
+function SpawnText(x,y, duration)
+	table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))	
 end
 
 -------------------------------------------------------------------------------
@@ -267,10 +289,12 @@ function beginContact(a, b, coll)
 	if bubbleFix and playerFix then
 		
 
+		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 5)
+		
 		bubbleFix:setUserData(false)
 		player:updateSpeed(-0.1)
+		--SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 
-		SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 		score = score + 1
 	end
    end

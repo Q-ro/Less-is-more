@@ -42,11 +42,13 @@ end
 
 function Bubble:hasFixture()
 
-    if not self.fix:getUserData() then
-        return false
+    if self.fix ~= nil then
+        if self.fix:getUserData() then
+            return true
+        end
     end
 
-    return true
+    return false
 
 end
 

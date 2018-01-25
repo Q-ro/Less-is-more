@@ -14,6 +14,7 @@ require("resources")
 require("map")
 require("player")
 require("bubble")
+require("poppedBubble")
 
 --Useful Libs
 require("helpers")
