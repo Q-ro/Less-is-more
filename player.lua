@@ -73,10 +73,6 @@ function Player:updateSpeed(x)
 
 end
 
-function Player:hitObject()
-
-end
-
 function Player:getSpeed()
     return self.currentMoveSpeed
 end

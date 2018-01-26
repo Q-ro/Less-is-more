@@ -32,6 +32,7 @@ function loadResources()
 
 	sfx.confirm = loadSound("Thunder","wav")
 	sfx.bork = loadSound("BorkBork","wav")
+	sfx.pop = loadSound("BubblePop","wav")
 	
 end
 

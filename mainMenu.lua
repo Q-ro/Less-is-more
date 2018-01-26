@@ -61,6 +61,7 @@ function mainMenu.draw()
 
 	end
 
+
 	lg.pop()
 end
 

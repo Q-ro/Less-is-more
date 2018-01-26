@@ -34,7 +34,7 @@ function inGame.enter()
 	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	map = Map.create()
-	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,3.0)
+	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
 
 	
 	-- SpawnBubble()
@@ -71,7 +71,7 @@ function inGame.update(dt)
 			speedTimer = 0
 		end
 
-		if #bubbles > 1 then
+		if #bubbles > 0 then
 			for i = 0, #bubbles + 1, 1 do
 				if bubbles[i] ~= nil then
 					if bubbles[i]:hasFixture() then
@@ -85,17 +85,19 @@ function inGame.update(dt)
 			end
 		end
 
-		if #poppedBubbles > 1 then
-			for i = 1,  #poppedBubbles + 1, 1 do
+		if #poppedBubbles > 0 then
+			for i = 0,  #poppedBubbles + 1, 1 do
 				if poppedBubbles[i] ~= nil then
 					--if bubbles[i]:hasFixture() then
-						poppedBubbles[i]:update()
+						poppedBubbles[i]:update(dt)
 					--end
 				end
 			end
 		end
 
-		if #bubblesToDestroy > 1 then
+		
+
+		if #bubblesToDestroy > 0 then
 			for i = 0, #bubblesToDestroy + 1, 1 do
 				if bubblesToDestroy[i] ~= nil then
 					bubblesToDestroy[i] = nil
@@ -122,8 +124,8 @@ function inGame.draw()
 		map:draw(15,25)
 		player:draw()
 	--	bubbles:draw()
-	if #bubbles > 1 then
-		for i = 1,  #bubbles + 1, 1 do
+	if #bubbles > 0 then
+		for i = 0,  #bubbles + 1, 1 do
 			if bubbles[i] ~= nil then
 				if bubbles[i]:hasFixture() then
 					bubbles[i]:draw()
@@ -132,10 +134,13 @@ function inGame.draw()
 		end
 	end
 
-	if #poppedBubbles > 1 then
-		for i = 1,  #poppedBubbles + 1, 1 do
+
+	if #poppedBubbles > 0 then
+		for i = 0,  #poppedBubbles + 1, 1 do
 			if poppedBubbles[i] ~= nil then
 				--if bubbles[i]:hasFixture() then
+
+				
 					poppedBubbles[i]:draw()
 				--end
 			end
@@ -212,8 +217,7 @@ end
 ---- End Region
 
 function DrawScore()
-	lg.setFont(font.digital)
-	
+	lg.setFont(font.digital)	
 	lg.printf("SCORE : "..score .. "  SPEED :".. player:getSpeed() .." TIME : " .. math.floor(time),0,screenHeight - 40, screenWidth,"center")
 end
 
@@ -260,7 +264,8 @@ function SpawnBubble()
 end
 
 function SpawnText(x,y, duration)
-	table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))	
+	table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
+	playSound("pop")
 end
 
 -------------------------------------------------------------------------------
@@ -289,7 +294,7 @@ function beginContact(a, b, coll)
 	if bubbleFix and playerFix then
 		
 
-		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 5)
+		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 0.5)
 		
 		bubbleFix:setUserData(false)
 		player:updateSpeed(-0.1)

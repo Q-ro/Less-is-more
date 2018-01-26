@@ -6,42 +6,57 @@
 --	#################################################################################################
 
 PoppedBubble = {}
-PoppedBubble.__index = Bubble
+PoppedBubble.__index = PoppedBubble
 
 local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
 function PoppedBubble.create(posX,posY,duration)
 
-    local self = setmetatable({}, Bubble)
+    local self = setmetatable({}, PoppedBubble)
 
     self.x = posX
     self.y = posY
     self.duration = duration
     self.currentAlpha = 0
 
+    self.fadeIn = true
+
     return self
 
 end
 
 function PoppedBubble:draw()
-    lg.push()
-    lg.SetColor(50,150,20,self.currentAlpha)
-    lg.printf("SCORE UP\nSPEED DOWN", self.x, self.y,50,"center")
-    lg.pop()
+
+    lg.setFont(font.normal)
+    lg.setColor(50,150,20,self.currentAlpha)
+    lg.printf("SCORE UP", self.x, self.y,120,"center")
+    lg.setColor(140,10,30,self.currentAlpha)
+    lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
+    lg.setColor(255,255,255,255)
+
 end
 
 function PoppedBubble:update(dt)
-    self.currentAlpha = clamp(self.currentAlpha+1,0,255)
-    
-    if self.currentAlpha >= 255 then
 
-        self.duration = duration - 1 * dt
+    if self.fadeIn then
+
+        self.currentAlpha = clamp(self.currentAlpha+790*dt,0,255)
+
+        if self.currentAlpha >= 255 then
+
+            self.fadeIn = false
+            
+        end
+    else
+        
+        self.duration = self.duration - 1 * dt
 
         if self.duration <= 0 then
-            self.currentAlpha = clamp(self.currentAlpha-1,0,255)
+            self.currentAlpha = clamp(self.currentAlpha-680 * dt,0,255)
         end
 
     end
+    
     
 end
