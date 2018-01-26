@@ -27,6 +27,10 @@ function PoppedBubble.create(posX,posY,duration)
 
 end
 
+function PoppedBubble:IsActive()
+    return self.isActive
+end
+
 function PoppedBubble:draw()
 
     lg.setFont(font.normal)

@@ -16,3 +16,14 @@ function SimplePooler.create(posX,posY,moveSpeed, moveDir, bubbleIndex)
     self.pool = {}
 
 end
+
+function SimplePooler:GetPooledObject()
+
+    for i = 0, #self.pool,1 do
+        if self.pool[i]:IsActive() == false then
+            return self.pool[i]
+        end
+    end
+    return nil
+
+end
