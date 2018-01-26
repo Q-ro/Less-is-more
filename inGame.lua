@@ -264,6 +264,7 @@ function SpawnBubble()
 end
 
 function SpawnText(x,y, duration)
+	ObjectPooler:GetPooledObject()
 	table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
 	playSound("pop")
 end
@@ -273,9 +274,7 @@ end
 -------------------------------------------------------------------------------
 function beginContact(a, b, coll)
 
-	local playerFix, bubbleFix
-
-	
+	local playerFix, bubbleFix	
    
 	-- Check what objects colliding
 	if a:getUserData() == "player" then

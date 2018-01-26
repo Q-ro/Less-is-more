@@ -32,39 +32,43 @@ function PoppedBubble:IsActive()
 end
 
 function PoppedBubble:draw()
-
-    lg.setFont(font.normal)
-    lg.setColor(50,150,20,self.currentAlpha)
-    lg.printf("SCORE UP", self.x, self.y,120,"center")
-    lg.setColor(140,10,30,self.currentAlpha)
-    lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
-    lg.setColor(255,255,255,255)
+    if self.isActive then
+        lg.setFont(font.normal)
+        lg.setColor(50,150,20,self.currentAlpha)
+        lg.printf("SCORE UP", self.x, self.y,120,"center")
+        lg.setColor(140,10,30,self.currentAlpha)
+        lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
+        lg.setColor(255,255,255,255)
+    end
 
 end
 
 function PoppedBubble:update(dt)
 
-    if self.fadeIn then
-
-        self.currentAlpha = clamp(self.currentAlpha+790*dt,0,255)
-
-        if self.currentAlpha >= 255 then
-
-            self.fadeIn = false
-            
-        end
-    else
-        
-        self.duration = self.duration - 1 * dt
-
-        if self.duration <= 0 then
-            self.currentAlpha = clamp(self.currentAlpha-680 * dt,0,255)
+    if self.isActive then    
+        if self.fadeIn then
+    
+            self.currentAlpha = clamp(self.currentAlpha+790*dt,0,255)
+    
+            if self.currentAlpha >= 255 then
+    
+                self.fadeIn = false
+                
+            end
         else
-            self.isActive = false;
+            
+            self.duration = self.duration - 1 * dt
+    
+            if self.duration <= 0 then
+                self.currentAlpha = clamp(self.currentAlpha-680 * dt,0,255)
+            else
+                self.isActive = false;
+            end
+    
+    
         end
-
-
     end
+
     
     
 end
