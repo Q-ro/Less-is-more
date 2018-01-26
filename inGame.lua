@@ -40,7 +40,7 @@ function inGame.enter()
 	-- SpawnBubble()
 
 	--text = 0
-
+ 
 end
 
 function inGame.update(dt)
