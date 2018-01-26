@@ -20,6 +20,7 @@ function PoppedBubble.create(posX,posY,duration)
     self.duration = duration
     self.currentAlpha = 0
 
+    self.isActive = true;
     self.fadeIn = true
 
     return self
@@ -54,7 +55,10 @@ function PoppedBubble:update(dt)
 
         if self.duration <= 0 then
             self.currentAlpha = clamp(self.currentAlpha-680 * dt,0,255)
+        else
+            self.isActive = false;
         end
+
 
     end
     
