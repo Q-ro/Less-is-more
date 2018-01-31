@@ -1,17 +1,17 @@
---	#####################################################
---	# Title:		simplePooler.lua				    #
---	# Author:		Andres Mrad (Q-ro)			        #
---	# Date:			Jan 26 2018					        #
---	# Description:	A simple approach to object pooling	#
---	#####################################################
+--	####################################################################################################################
+--	# Title:		bubbleTextPooler.lua				                                                                   #
+--	# Author:		Andres Mrad (Q-ro)			                                                                       #
+--	# Date:			Jan 26 2018					                                                                       #
+--	# Description:	A simple approach to object pooling	(Used for the text objects displayed after a bubble is popped) #
+--	####################################################################################################################
 
-SimplePooler = {}
-SimplePooler.__index = SimplePooler
+BubbleTextPooler = {}
+BubbleTextPooler.__index = BubbleTextPooler
 
 local lg = love.graphics
 
-function SimplePooler.create()
-    local self = setmetatable({}, SimplePooler)
+function BubbleTextPooler.create()
+    local self = setmetatable({}, BubbleTextPooler)
 
     self.pool = {}
 
@@ -19,7 +19,7 @@ function SimplePooler.create()
 
 end
 
-function SimplePooler:draw()
+function BubbleTextPooler:draw()
     
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
@@ -31,7 +31,7 @@ function SimplePooler:draw()
 
 end
 
-function SimplePooler:update(dt)
+function BubbleTextPooler:update(dt)
     
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
@@ -43,7 +43,7 @@ function SimplePooler:update(dt)
 
 end
 
-function SimplePooler:createObject(posX,posY, duration)
+function BubbleTextPooler:createObject(posX,posY, duration)
 
     local pooledObject = self:getPooledObject()
 
@@ -57,7 +57,7 @@ function SimplePooler:createObject(posX,posY, duration)
     end
 end
 
-function SimplePooler:getPooledObject()
+function BubbleTextPooler:getPooledObject()
 
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do

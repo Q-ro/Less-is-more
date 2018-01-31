@@ -116,16 +116,6 @@ end
 
 function Player:loadAnimation(animationHolder,image, width, height, duration)
     self.Animation[animationHolder] = {}
-    self.Animation[animationHolder].spriteSheet = lg.newImage(image);
-    self.Animation[animationHolder].Quads = {};
- 
-    for y = 0, self.Animation[animationHolder].spriteSheet:getHeight() - height, height do
-        for x = 0, self.Animation[animationHolder].spriteSheet:getWidth() - width, width do
-            table.insert( self.Animation[animationHolder].Quads, lg.newQuad(x, y, width, height, self.Animation[animationHolder].spriteSheet:getDimensions()))
-        end
-    end
- 
-    self.Animation[animationHolder].duration = duration or 1
-    self.Animation[animationHolder].currentTime = 0
+    self.Animation[animationHolder] = loadAnimation(image, width, height, duration)
 end
 

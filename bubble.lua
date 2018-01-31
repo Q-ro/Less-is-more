@@ -11,14 +11,20 @@ Bubble.__index = Bubble
 local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
-function Bubble.create(posX,posY,moveSpeed, moveDir, bubbleIndex)
+function Bubble.create()
     
     local self = setmetatable({}, Bubble)
+    return self
+
+end
+
+function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
 
     self.x = posX
     self.y = posY
     self.moveSpeed = moveSpeed
     self.moveDirection = moveDir
+    self.isActive = false
 
     self.bubbleIndex = bubbleIndex
 
@@ -50,6 +56,18 @@ function Bubble:hasFixture()
 
     return false
 
+end
+
+function Bubble:IsActive()
+
+    if self.fix ~= nil then
+        if self.fix:getUserData() then
+            return true
+        end
+    end
+
+    return false
+    
 end
 
 function Bubble:update(dt)
@@ -87,17 +105,7 @@ end
 
 function Bubble:loadAnimation(animationHolder,image, width, height, duration)
     self.Animation[animationHolder] = {}
-    self.Animation[animationHolder].spriteSheet = lg.newImage(image);
-    self.Animation[animationHolder].Quads = {};
- 
-    for y = 0, self.Animation[animationHolder].spriteSheet:getHeight() - height, height do
-        for x = 0, self.Animation[animationHolder].spriteSheet:getWidth() - width, width do
-            table.insert( self.Animation[animationHolder].Quads, lg.newQuad(x, y, width, height, self.Animation[animationHolder].spriteSheet:getDimensions()))
-        end
-    end
- 
-    self.Animation[animationHolder].duration = duration or 1
-    self.Animation[animationHolder].currentTime = 0
+    self.Animation[animationHolder] = loadAnimation(image, width, height, duration)
 end
 
 function Bubble:move()
@@ -113,21 +121,4 @@ function Bubble:move()
     end
     --self.body:applyForce( moveMagnitudeNomalized[1]*self.moveSpeed, moveMagnitudeNomalized[2]*self.moveSpeed)
 
-end
-
-function Bubble:destroy()
-    -- Make object = nil will destroy object
-    -- Using "for" loop with step = 1, because it's work faster then ipairs
-    table.remove(bubbles, self.bubbleIndex)
-    --self:setUserData(false)
-    --self = nil
-    --    --self = nil
-    --for i = 1, #bubbles, 1 do
-    --    if self == bubbles[i] then
-    --        bubbles[i] = nil
-    --    end
-    --end
-
-    --self.body.destroy( )
-    --self.shape:destroy()
 end

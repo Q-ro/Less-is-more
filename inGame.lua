@@ -37,7 +37,7 @@ function inGame.enter()
 	map = Map.create()
 	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
 
-	poppedBubblePooler = SimplePooler.create()
+	bubbleTextPooler = BubbleTextPooler.create()
 
 	
 	-- SpawnBubble()
@@ -107,7 +107,7 @@ function inGame.update(dt)
 				end
 			end
 		end
-		poppedBubblePooler:update(dt)
+		bubbleTextPooler:update(dt)
 	else
 		finalScore = score
 		finalTime = time
@@ -150,7 +150,7 @@ function inGame.draw()
 		end
 	end
 
-	poppedBubblePooler:draw()
+	bubbleTextPooler:draw()
 	
 	DrawScore()
 
@@ -260,7 +260,8 @@ function SpawnBubble()
 		dirY = -1
 		dirX = 0
 	end
-	table.insert(bubbles,Bubble.create(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
+	local bub = Bubble.create()
+	table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
 	
 	--bubbles[bubblesCounter] = Bubble.create(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
 	bubblesCounter = #bubbles + 1
@@ -269,7 +270,7 @@ function SpawnBubble()
 end
 
 function SpawnText(x,y, duration)
-	poppedBubblePooler:createObject(x,y,duration)
+	bubbleTextPooler:createObject(x,y,duration)
 	--simplePooler:getPooledObject()
 	--table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
 	playSound("pop")

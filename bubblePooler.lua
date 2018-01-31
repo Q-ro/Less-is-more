@@ -1,0 +1,71 @@
+--	#########################################################################################################
+--	# Title:		bubblePooler.lua				                                                        #
+--	# Author:		Andres Mrad (Q-ro)			                                                            #
+--	# Date:			Jan 26 2018					                                                            #
+--	# Description:	A simple approach to object pooling	(Used for the bubble objects displayed in the game) #
+--	#########################################################################################################
+
+BubblePooler = {}
+BubblePooler.__index = BubblePooler
+
+local lg = love.graphics
+
+function BubblePooler.create()
+    local self = setmetatable({}, BubblePooler)
+
+    self.pool = {}
+
+    return self
+
+end
+
+function BubblePooler:draw()
+    
+    if #self.pool > 0 then
+        for i = 1, #self.pool,1 do
+            if self.pool[i]:IsActive() == true then
+                return self.pool[i]:draw()
+            end
+        end    
+    end
+
+end
+
+function BubblePooler:update(dt)
+    
+    if #self.pool > 0 then
+        for i = 1, #self.pool,1 do
+            if self.pool[i]:IsActive() == true then
+                return self.pool[i]:update(dt)
+            end
+        end    
+    end
+
+end
+
+function BubblePooler:createObject(posX,posY, duration)
+
+    local pooledObject = self:getPooledObject()
+
+    if pooledObject ~= nil then
+        pooledObject:Init(posX,posY,duration)
+        table.insert(self.pool,pooledObject)
+    else
+        pooledObject = PoppedBubble.create()
+        pooledObject:Init(posX,posY,duration)
+        table.insert(self.pool,pooledObject)
+    end
+end
+
+function BubblePooler:getPooledObject()
+
+    if #self.pool > 0 then
+        for i = 1, #self.pool,1 do
+            if self.pool[i]:IsActive() == false then
+                return self.pool[i]
+            end
+        end
+    end
+    return nil
+    
+end

@@ -40,7 +40,7 @@ end
 function loadAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image;
-    animation.quads = {};
+    animation.Quads = {};
  
     for y = 0, image:getHeight() - height, height do
         for x = 0, image:getWidth() - width, width do
