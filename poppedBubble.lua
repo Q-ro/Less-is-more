@@ -11,9 +11,23 @@ PoppedBubble.__index = PoppedBubble
 local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
-function PoppedBubble.create(posX,posY,duration)
+function PoppedBubble.create()
 
     local self = setmetatable({}, PoppedBubble)
+
+    self.x = 0.0
+    self.y = 0.0
+    self.duration = 0.0
+    self.currentAlpha = 0.0
+
+    self.isActive = true;
+    self.fadeIn = true
+
+    return self
+
+end
+
+function PoppedBubble:Init(posX,posY,duration)
 
     self.x = posX
     self.y = posY

@@ -23,6 +23,7 @@ local screenHeight = lg.getHeight()
 bubbles = {}
 poppedBubbles = {}
 bubblesToDestroy = {}
+--simplePooler = {}
 inGame = {}
 
 ---- Region Love functions
@@ -35,6 +36,8 @@ function inGame.enter()
 
 	map = Map.create()
 	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
+
+	poppedBubblePooler = SimplePooler.create()
 
 	
 	-- SpawnBubble()
@@ -104,7 +107,7 @@ function inGame.update(dt)
 				end
 			end
 		end
-
+		poppedBubblePooler:update(dt)
 	else
 		finalScore = score
 		finalTime = time
@@ -147,6 +150,8 @@ function inGame.draw()
 		end
 	end
 
+	poppedBubblePooler:draw()
+	
 	DrawScore()
 
 		--lg.setColor(0, 0, 255)
@@ -264,8 +269,9 @@ function SpawnBubble()
 end
 
 function SpawnText(x,y, duration)
-	ObjectPooler:GetPooledObject()
-	table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
+	poppedBubblePooler:createObject(x,y,duration)
+	--simplePooler:getPooledObject()
+	--table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
 	playSound("pop")
 end
 
