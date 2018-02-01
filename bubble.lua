@@ -24,7 +24,7 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
     self.y = posY
     self.moveSpeed = moveSpeed
     self.moveDirection = moveDir
-    self.isActive = false
+    self.isActive = true
 
     self.bubbleIndex = bubbleIndex
 
@@ -32,7 +32,7 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
     self.body:setBullet(true)
     self.shape = love.physics.newCircleShape(12)
     self.fix = love.physics.newFixture(self.body, self.shape, 0.1)
-    self.fix:setUserData("bubble")
+    self.fix:setUserData("bubbleActive")
 
 
 
@@ -49,7 +49,7 @@ end
 function Bubble:hasFixture()
 
     if self.fix ~= nil then
-        if self.fix:getUserData() then
+        if self.fix:getUserData() == "bubbleActive" then
             return true
         end
     end
@@ -61,7 +61,7 @@ end
 function Bubble:IsActive()
 
     if self.fix ~= nil then
-        if self.fix:getUserData() then
+        if self.isActive then
             return true
         end
     end
@@ -79,13 +79,9 @@ function Bubble:update(dt)
             self.currentAnimation.currentTime = self.currentAnimation.currentTime - self.currentAnimation.duration
         end
         self:move()
-    
-        --if self.body:getX() < - 35 or self.body:getX() > (love.graphics.getWidth() ) or 
-        --self.body:getY() < -35 or self.body:getY()> (love.graphics.getHeight() ) or
-        --not self.fix:getUserData() then
-        --    self:destroy()
-        --end
 
+    elseif self.fix:getUserData() == "bubbleInactive" and self.IsActive then
+        self.isActive = false
     end
 
 end
@@ -96,9 +92,6 @@ function Bubble:draw()
         local spriteNum = math.floor(self.currentAnimation.currentTime / self.currentAnimation.duration * #self.currentAnimation.Quads) + 1
         lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.body:getX()-32, self.body:getY()-30, 0, 1)
 
-        --lg.setColor(255, 0, 0)
-        --lg.circle("line", self.body:getX(),self.body:getY(), self.shape:getRadius(), 20)
-        --lg.setColor(255, 255, 255)
     end
 end
 

@@ -21,9 +21,7 @@ local screenWidth = lg.getWidth()
 local screenHeight = lg.getHeight()
 
 bubbles = {}
-poppedBubbles = {}
 bubblesToDestroy = {}
---simplePooler = {}
 inGame = {}
 
 ---- Region Love functions
@@ -37,12 +35,8 @@ function inGame.enter()
 	map = Map.create()
 	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
 
+	bubblePooler = BubblePooler.create()
 	bubbleTextPooler = BubbleTextPooler.create()
-
-	
-	-- SpawnBubble()
-
-	--text = 0
  
 end
 
@@ -88,18 +82,6 @@ function inGame.update(dt)
 			end
 		end
 
-		if #poppedBubbles > 0 then
-			for i = 0,  #poppedBubbles + 1, 1 do
-				if poppedBubbles[i] ~= nil then
-					--if bubbles[i]:hasFixture() then
-						poppedBubbles[i]:update(dt)
-					--end
-				end
-			end
-		end
-
-		
-
 		if #bubblesToDestroy > 0 then
 			for i = 0, #bubblesToDestroy + 1, 1 do
 				if bubblesToDestroy[i] ~= nil then
@@ -107,7 +89,9 @@ function inGame.update(dt)
 				end
 			end
 		end
+		
 		bubbleTextPooler:update(dt)
+
 	else
 		finalScore = score
 		finalTime = time
@@ -124,28 +108,15 @@ function inGame.draw()
 	
 	lg.setColor(255, 255, 255)
 	
-		map:draw(15,25)
-		player:draw()
-	--	bubbles:draw()
+	map:draw(15,25)
+	player:draw()
+
 	if #bubbles > 0 then
 		for i = 0,  #bubbles + 1, 1 do
 			if bubbles[i] ~= nil then
 				if bubbles[i]:hasFixture() then
 					bubbles[i]:draw()
 				end
-			end
-		end
-	end
-
-
-	if #poppedBubbles > 0 then
-		for i = 0,  #poppedBubbles + 1, 1 do
-			if poppedBubbles[i] ~= nil then
-				--if bubbles[i]:hasFixture() then
-
-				
-					poppedBubbles[i]:draw()
-				--end
 			end
 		end
 	end
@@ -290,19 +261,18 @@ function beginContact(a, b, coll)
 		playerFix = b
 	end
    
-	if a:getUserData() == "bubble" then
+	if a:getUserData() == "bubbleActive" then
 		bubbleFix = a
-	elseif b:getUserData() == "bubble" then
+	elseif b:getUserData() == "bubbleActive" then
 		bubbleFix = b
 	end
    
 	-- If player collides with bullet
-	if bubbleFix and playerFix then
-		
+	if bubbleFix and playerFix then		
 
 		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 0.5)
 		
-		bubbleFix:setUserData(false)
+		bubbleFix:setUserData("bubbleInactive")
 		player:updateSpeed(-0.1)
 		--SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 

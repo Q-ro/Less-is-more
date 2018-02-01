@@ -43,16 +43,16 @@ function BubblePooler:update(dt)
 
 end
 
-function BubblePooler:createObject(posX,posY, duration)
+function BubblePooler:createObjec(posX,posY,moveSpeed,moveDir,bubbleIndex)
 
     local pooledObject = self:getPooledObject()
 
     if pooledObject ~= nil then
-        pooledObject:Init(posX,posY,duration)
+        pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
         table.insert(self.pool,pooledObject)
     else
-        pooledObject = PoppedBubble.create()
-        pooledObject:Init(posX,posY,duration)
+        pooledObject = Bubble.create()
+        pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
         table.insert(self.pool,pooledObject)
     end
 end
