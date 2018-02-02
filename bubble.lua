@@ -25,6 +25,7 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
     self.moveSpeed = moveSpeed
     self.moveDirection = moveDir
     self.isActive = true
+    self.isPopped = false
 
     self.bubbleIndex = bubbleIndex
 
@@ -39,6 +40,7 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
 
     self.Animation = {}
     self:loadAnimation("BubbleAnimation","Assets/Images/Bubble.png",64,64,0.9)
+    self:loadAnimation("BubblePoppedAnimation","Assets/Images/BubblePopped.png",64,64,0.3)
     self.currentAnimation = self.Animation["BubbleAnimation"]
 
     return self
@@ -49,7 +51,7 @@ end
 function Bubble:hasFixture()
 
     if self.fix ~= nil then
-        if self.fix:getUserData() == "bubbleActive" then
+        if self.fix:getUserData() ~= "bubbleInactive" then
             return true
         end
     end
@@ -72,22 +74,38 @@ end
 
 function Bubble:update(dt)
 
-    if self:hasFixture() then
+    if self:IsActive() then
 
         self.currentAnimation.currentTime = self.currentAnimation.currentTime + dt
+        
         if self.currentAnimation.currentTime >= self.currentAnimation.duration then
-            self.currentAnimation.currentTime = self.currentAnimation.currentTime - self.currentAnimation.duration
+
+            if not self.isPopped then
+                self.currentAnimation.currentTime = self.currentAnimation.currentTime - self.currentAnimation.duration
+            else
+                --bubbleFix:setUserData("bubbleInactive")
+                self.IsActive = false
+                return
+            end
+            
         end
+
         self:move()
 
-    elseif self.fix:getUserData() == "bubbleInactive" and self.IsActive then
-        self.isActive = false
+        if self.fix:getUserData() == "bubbleInactive" and self.IsActive and not self.isPopped then
+            self.isPopped = true
+            self.currentAnimation = self.Animation["BubblePoppedAnimation"]
+            self.currentAnimation.currentTime = 0
+            
+        end
+
     end
 
 end
 
 function Bubble:draw()
-    if self:hasFixture() then
+
+    if self:IsActive() then
 
         local spriteNum = math.floor(self.currentAnimation.currentTime / self.currentAnimation.duration * #self.currentAnimation.Quads) + 1
         lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.body:getX()-32, self.body:getY()-30, 0, 1)
@@ -103,7 +121,7 @@ end
 
 function Bubble:move()
 
-    if self:hasFixture() then
+    if self:IsActive() then
 
         local moveMagnitude = math.sqrt(math.exp(self.moveDirection[1],2) + math.exp(self.moveDirection[2],2))
         local moveMagnitudeNomalized =  {self.moveDirection[1] /moveMagnitude, self.moveDirection[2]/moveMagnitude}

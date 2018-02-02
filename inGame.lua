@@ -20,8 +20,6 @@ local spawntRate = 1
 local screenWidth = lg.getWidth()
 local screenHeight = lg.getHeight()
 
-bubbles = {}
-bubblesToDestroy = {}
 inGame = {}
 
 ---- Region Love functions
@@ -68,28 +66,8 @@ function inGame.update(dt)
 			speedTimer = 0
 		end
 
-		if #bubbles > 0 then
-			for i = 0, #bubbles + 1, 1 do
-				if bubbles[i] ~= nil then
-					if bubbles[i]:hasFixture() then
-						bubbles[i]:update(dt)
-					else
-						table.insert(bubblesToDestroy, i)
-						--bubbles[i] = nil
-					end
-
-				end
-			end
-		end
-
-		if #bubblesToDestroy > 0 then
-			for i = 0, #bubblesToDestroy + 1, 1 do
-				if bubblesToDestroy[i] ~= nil then
-					bubblesToDestroy[i] = nil
-				end
-			end
-		end
 		
+		bubblePooler:update(dt)
 		bubbleTextPooler:update(dt)
 
 	else
@@ -110,19 +88,9 @@ function inGame.draw()
 	
 	map:draw(15,25)
 	player:draw()
-
-	if #bubbles > 0 then
-		for i = 0,  #bubbles + 1, 1 do
-			if bubbles[i] ~= nil then
-				if bubbles[i]:hasFixture() then
-					bubbles[i]:draw()
-				end
-			end
-		end
-	end
-
 	bubbleTextPooler:draw()
-	
+	bubblePooler:draw()
+
 	DrawScore()
 
 		--lg.setColor(0, 0, 255)
@@ -231,11 +199,14 @@ function SpawnBubble()
 		dirY = -1
 		dirX = 0
 	end
-	local bub = Bubble.create()
-	table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
+
+	bubblePooler:createObject(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
+
+	--local bub = Bubble.create()
+	--table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
 	
 	--bubbles[bubblesCounter] = Bubble.create(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
-	bubblesCounter = #bubbles + 1
+	--bubblesCounter = #bubbles + 1
 	--text = bubbles[bubblesCounter]
 
 end
