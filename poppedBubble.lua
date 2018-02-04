@@ -62,7 +62,7 @@ function PoppedBubble:update(dt)
     if self.isActive then    
         if self.fadeIn then
     
-            self.currentAlpha = clamp(self.currentAlpha+790*dt,0,255)
+            self.currentAlpha = clamp(self.currentAlpha+690*dt,0,255)
     
             if self.currentAlpha >= 255 then
     

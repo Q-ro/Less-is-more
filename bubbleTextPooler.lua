@@ -24,7 +24,7 @@ function BubbleTextPooler:draw()
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
-                return self.pool[i]:draw()
+                self.pool[i]:draw()
             end
         end    
     end
@@ -36,7 +36,7 @@ function BubbleTextPooler:update(dt)
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
-                return self.pool[i]:update(dt)
+                self.pool[i]:update(dt)
             end
         end    
     end

@@ -200,7 +200,7 @@ function SpawnBubble()
 		dirX = 0
 	end
 
-	bubblePooler:createObject(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
+	bubblePooler:createObject(spawnX,spawnY,moveSpeed, {dirX,dirY})
 
 	--local bub = Bubble.create()
 	--table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
@@ -243,7 +243,7 @@ function beginContact(a, b, coll)
 
 		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 0.5)
 		
-		bubbleFix:setUserData("bubbleInactive")
+		bubbleFix:setUserData("bubblePopped")
 		player:updateSpeed(-0.1)
 		--SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 

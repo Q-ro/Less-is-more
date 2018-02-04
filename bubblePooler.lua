@@ -24,8 +24,8 @@ function BubblePooler:draw()
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
-                print("DRAW MOFO")
-                return self.pool[i]:draw()
+               -- print("DRAW MOFO")
+                self.pool[i]:draw()
             end
         end    
     end
@@ -38,8 +38,8 @@ function BubblePooler:update(dt)
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
-                print("UPDATE MOFO !")
-                return self.pool[i]:update(dt)
+                --print("UPDATE MOFO !")
+                self.pool[i]:update(dt)
             end
         end    
     end
@@ -52,6 +52,7 @@ function BubblePooler:createObject(posX,posY,moveSpeed,moveDir,bubbleIndex)
 
     if pooledObject ~= nil then
         pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
+        print("bubble pooled")
         table.insert(self.pool,pooledObject)
     else
         pooledObject = Bubble.create()

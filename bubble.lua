@@ -14,11 +14,12 @@ local lg = love.graphics
 function Bubble.create()
     
     local self = setmetatable({}, Bubble)
+
     return self
 
 end
 
-function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
+function Bubble:Init(posX,posY,moveSpeed, moveDir)
 
     self.x = posX
     self.y = posY
@@ -27,77 +28,55 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir, bubbleIndex)
     self.isActive = true
     self.isPopped = false
 
-    self.bubbleIndex = bubbleIndex
-
     self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
     self.body:setBullet(true)
     self.shape = love.physics.newCircleShape(12)
     self.fix = love.physics.newFixture(self.body, self.shape, 0.1)
     self.fix:setUserData("bubbleActive")
 
-
-
-
     self.Animation = {}
     self:loadAnimation("BubbleAnimation","Assets/Images/Bubble.png",64,64,0.9)
-    self:loadAnimation("BubblePoppedAnimation","Assets/Images/BubblePopped.png",64,64,0.3)
+    self:loadAnimation("BubblePoppedAnimation","Assets/Images/BubblePopped.png",64,64,0.5)
     self.currentAnimation = self.Animation["BubbleAnimation"]
 
     return self
 
 end
 
-
-function Bubble:hasFixture()
-
-    if self.fix ~= nil then
-        if self.fix:getUserData() ~= "bubbleInactive" then
-            return true
-        end
-    end
-
-    return false
-
-end
-
 function Bubble:IsActive()
-
-    if self.fix ~= nil then
-        if self.isActive then
-            return true
-        end
-    end
-
-    return false
-    
+    return self.isActive
 end
 
 function Bubble:update(dt)
 
-    if self:IsActive() then
+    if self.isActive == true then
 
         self.currentAnimation.currentTime = self.currentAnimation.currentTime + dt
         
         if self.currentAnimation.currentTime >= self.currentAnimation.duration then
 
-            if not self.isPopped then
+            if self.isPopped == false then
                 self.currentAnimation.currentTime = self.currentAnimation.currentTime - self.currentAnimation.duration
             else
-                --bubbleFix:setUserData("bubbleInactive")
-                self.IsActive = false
+                --print("bubble inactive")
+
+                self.isActive = false
+                self.fix = nil
                 return
             end
             
         end
 
-        self:move()
-
-        if self.fix:getUserData() == "bubbleInactive" and self.IsActive and not self.isPopped then
-            self.isPopped = true
-            self.currentAnimation = self.Animation["BubblePoppedAnimation"]
-            self.currentAnimation.currentTime = 0
-            
+        
+        if self.isPopped == false then
+            self:move()
         end
+            
+            if self.fix:getUserData() == "bubblePopped" and self.isPopped == false then
+                self.isPopped = true
+                self.currentAnimation = self.Animation["BubblePoppedAnimation"]
+            end
+
 
     end
 
@@ -105,7 +84,7 @@ end
 
 function Bubble:draw()
 
-    if self:IsActive() then
+    if self.isActive == true then
 
         local spriteNum = math.floor(self.currentAnimation.currentTime / self.currentAnimation.duration * #self.currentAnimation.Quads) + 1
         lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.body:getX()-32, self.body:getY()-30, 0, 1)
@@ -121,8 +100,9 @@ end
 
 function Bubble:move()
 
-    if self:IsActive() then
+    if self.isActive == true then
 
+        print("move speed : "..self.moveSpeed)
         local moveMagnitude = math.sqrt(math.exp(self.moveDirection[1],2) + math.exp(self.moveDirection[2],2))
         local moveMagnitudeNomalized =  {self.moveDirection[1] /moveMagnitude, self.moveDirection[2]/moveMagnitude}
 
@@ -130,6 +110,5 @@ function Bubble:move()
         self.y = self.y + moveMagnitudeNomalized[2]*self.moveSpeed
         self.body:setPosition(self.x, self.y)
     end
-    --self.body:applyForce( moveMagnitudeNomalized[1]*self.moveSpeed, moveMagnitudeNomalized[2]*self.moveSpeed)
 
 end
