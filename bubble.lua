@@ -102,7 +102,7 @@ function Bubble:move()
 
     if self.isActive == true then
 
-        print("move speed : "..self.moveSpeed)
+        --print("move speed : "..self.moveSpeed)
         local moveMagnitude = math.sqrt(math.exp(self.moveDirection[1],2) + math.exp(self.moveDirection[2],2))
         local moveMagnitudeNomalized =  {self.moveDirection[1] /moveMagnitude, self.moveDirection[2]/moveMagnitude}
 
