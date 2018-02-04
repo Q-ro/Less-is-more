@@ -49,7 +49,6 @@ function BubbleTextPooler:createObject(posX,posY, duration)
 
     if pooledObject ~= nil then
         pooledObject:Init(posX,posY,duration)
-        table.insert(self.pool,pooledObject)
     else
         pooledObject = PoppedBubble.create()
         pooledObject:Init(posX,posY,duration)

@@ -5,6 +5,4 @@ function love.conf(t)
     t.window.title = "Rain runner: The adventures of borko"
 
     t.window.icon = "Assets/Images/idle1.png"
-
-    t.console = true
 end

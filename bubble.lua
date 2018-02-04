@@ -40,7 +40,6 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir)
     self.currentAnimation = self.Animation["BubbleAnimation"]
 
     return self
-
 end
 
 function Bubble:IsActive()

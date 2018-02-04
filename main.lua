@@ -1,5 +1,3 @@
-io.stdout:setvbuf('no')
-
 --	#####################################################
 --	# Title:		Rain Runner: The borko adventure	#
 --	# Author:		Andres Mrad (Q-ro)					#

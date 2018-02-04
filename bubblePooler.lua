@@ -52,8 +52,6 @@ function BubblePooler:createObject(posX,posY,moveSpeed,moveDir,bubbleIndex)
 
     if pooledObject ~= nil then
         pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
-        --print("bubble pooled")
-        table.insert(self.pool,pooledObject)
     else
         pooledObject = Bubble.create()
         --print("bubble created")
@@ -67,6 +65,7 @@ function BubblePooler:getPooledObject()
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == false then
+                self.pool[i]:Reset()
                 return self.pool[i]
             end
         end
