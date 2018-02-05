@@ -65,7 +65,6 @@ function BubblePooler:getPooledObject()
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == false then
-                self.pool[i]:Reset()
                 return self.pool[i]
             end
         end

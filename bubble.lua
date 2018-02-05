@@ -60,7 +60,7 @@ function Bubble:update(dt)
                 --print("bubble inactive")
 
                 self.isActive = false
-                self.fix = nil
+                --self.fix = nil
                 return
             end
             
