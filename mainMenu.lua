@@ -10,7 +10,9 @@ local lg = love.graphics
 
 -- Main menu stings and the game states they represent
 local MAIN_MENU = {
-	{"START GAME", "INGAME"}, 
+	{"START GAME", "INGAME"},
+	{"HOW TO PLAY", "HOWTOPLAY"},
+	{"CREDITS", "CREDITS"},
 	{"EXIT GAME", "EXITGAME"}
 }
 

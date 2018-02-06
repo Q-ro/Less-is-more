@@ -1,7 +1,7 @@
 --	#################################################################################################
 --	# Title:		poppedBubble.lua                                                                #
 --	# Author:		Andres Mrad (Q-ro)			                                                    #
---	# Date:			Jan 24 2017					                                                    #
+--	# Date:			Jan 24 2018					                                                    #
 --	# Description:	Loads and sets the text to be displayed after an enemy is  destroyed "bubbles"	#
 --	#################################################################################################
 

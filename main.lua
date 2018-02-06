@@ -26,6 +26,8 @@ require("mainMenu")
 require("inGame")
 require("exitGame")
 require("scoreScreen")
+require("creditsScreen")
+require("howToPlayScreen")
 require("exitGame")
 
 -- A reference to the game states
@@ -34,6 +36,8 @@ local gamestates =
 	["INGAME"]=inGame,
 	["MAINMENU"]=mainMenu,
 	["SCORESCREEN"]=scoreScreen,
+	["HOWTOPLAY"]=howToPlayScreen,
+	["CREDITS"]=creditsScreen,
 	["EXITGAME"]=exitGame
 }
 
