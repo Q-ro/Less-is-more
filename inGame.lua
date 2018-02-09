@@ -8,6 +8,7 @@
 local lg = love.graphics
 local score = 0
 local time = 0
+local availableBorks = 3
 finalScore = 0
 finalTime = 0
 
@@ -28,7 +29,7 @@ inGame = {}
 function inGame.enter()
 	
 	world = love.physics.newWorld(0, 0, true)
-	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
+	world:setCallbacks(beginContact)
 
 	map = Map.create()
 	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
@@ -126,7 +127,22 @@ function inGame.keypressed(k, uni)
 		--Play a sound effect
 	--	playSound("confirm")
 	playSound("bork")
+	
+	if availableBorks > 0 then
+		
+		availableBorks = availableBorks - 1
+		
+		local forcedPopedBubles = bubblePooler:popAllBubbles()
+	
+		score = score  +  #forcedPopedBubles
 
+		for i = 1, #forcedPopedBubles,1 do
+			local posX, posY = unpack(forcedPopedBubles[i])
+				--SpawnText(forcedPopedBubles[i][1].X,forcedPopedBubles[i][2].Y,false, 0.5)
+			SpawnText(posX,posY,false, 0.5)
+		end
+
+	end
 	-- on scape close the game
 	elseif k == "escape" then
 		love.event.quit()
@@ -211,11 +227,11 @@ function SpawnBubble()
 
 end
 
-function SpawnText(x,y, duration)
-	bubbleTextPooler:createObject(x,y,duration)
-	--simplePooler:getPooledObject()
-	--table.insert(poppedBubbles,PoppedBubble.create(x,y,duration))
-	playSound("pop")
+function SpawnText(x,y,isSlowDown,duration)
+	bubbleTextPooler:createObject(x,y,isSlowDown,duration)
+	if isSlowDown then
+		playSound("pop")
+	end
 end
 
 -------------------------------------------------------------------------------
@@ -241,7 +257,7 @@ function beginContact(a, b, coll)
 	-- If player collides with bullet
 	if bubbleFix and playerFix then		
 
-		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(), 0.5)
+		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(),true, 0.5)
 		
 		bubbleFix:setUserData("bubblePopped")
 		player:updateSpeed(-0.1)
@@ -249,16 +265,4 @@ function beginContact(a, b, coll)
 
 		score = score + 1
 	end
-   end
-   
-   function endContact(a, b, coll)
-	   --
-   end
-   
-   function preSolve(a, b, coll)
-	   --
-   end
-   
-   function postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2)
-	   --
    end

@@ -17,8 +17,10 @@ function Player.create(posX,posY,maxMoveSpeed)
 
     local self = setmetatable({}, Player)
 
-    self.x = posX;
-    self.y = posY;
+    self.x = posX
+    self.y = posY
+    self.borkUsed = false
+    self.canMove = true
     self.maxMoveSpeed = maxMoveSpeed
     self.currentMoveSpeed = maxMoveSpeed
     self.maxMoveSpeed = maxMoveSpeed

@@ -18,6 +18,7 @@ function PoppedBubble.create()
     self.x = 0.0
     self.y = 0.0
     self.duration = 0.0
+    self.isSlowDown = false
     self.currentAlpha = 0.0
 
     self.isActive = false
@@ -27,11 +28,12 @@ function PoppedBubble.create()
 
 end
 
-function PoppedBubble:Init(posX,posY,duration)
+function PoppedBubble:Init(posX,posY,isSlowDown,duration)
 
     self.x = posX
     self.y = posY
     self.duration = duration
+    self.isSlowDown = isSlowDown
     self.currentAlpha = 0
 
     self.isActive = true
@@ -50,8 +52,12 @@ function PoppedBubble:draw()
         lg.setFont(font.normal)
         lg.setColor(50,150,20,self.currentAlpha)
         lg.printf("SCORE UP", self.x, self.y,120,"center")
-        lg.setColor(140,10,30,self.currentAlpha)
-        lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
+
+        if self.isSlowDown then
+            lg.setColor(140,10,30,self.currentAlpha)
+            lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
+        end
+        
         lg.setColor(255,255,255,255)
     end
 

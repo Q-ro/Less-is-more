@@ -20,38 +20,38 @@ function BubbleTextPooler.create()
 end
 
 function BubbleTextPooler:draw()
-    
+
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
                 self.pool[i]:draw()
             end
-        end    
+        end
     end
 
 end
 
 function BubbleTextPooler:update(dt)
-    
+
     if #self.pool > 0 then
         for i = 1, #self.pool,1 do
             if self.pool[i]:IsActive() == true then
                 self.pool[i]:update(dt)
             end
-        end    
+        end
     end
 
 end
 
-function BubbleTextPooler:createObject(posX,posY, duration)
+function BubbleTextPooler:createObject(posX,posY,isSlowDown,duration)
 
     local pooledObject = self:getPooledObject()
 
     if pooledObject ~= nil then
-        pooledObject:Init(posX,posY,duration)
+        pooledObject:Init(posX,posY,isSlowDown,duration)
     else
         pooledObject = PoppedBubble.create()
-        pooledObject:Init(posX,posY,duration)
+        pooledObject:Init(posX,posY,isSlowDown,duration)
         table.insert(self.pool,pooledObject)
     end
 end

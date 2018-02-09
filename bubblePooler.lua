@@ -14,6 +14,7 @@ function BubblePooler.create()
     local self = setmetatable({}, BubblePooler)
 
     self.pool = {}
+    self.popAll = false
 
     return self
 
@@ -36,26 +37,54 @@ function BubblePooler:update(dt)
 
     --print("About to update bubble")
     if #self.pool > 0 then
-        for i = 1, #self.pool,1 do
-            if self.pool[i]:IsActive() == true then
-                --print("UPDATE MOFO ! : " .. i)
-                self.pool[i]:update(dt)
-            end
-        end    
-    end
 
+        if not self.popAll then
+            for i = 1, #self.pool,1 do
+                if self.pool[i]:IsActive() == true then
+                    --print("UPDATE MOFO ! : " .. i)
+                    self.pool[i]:update(dt)
+                end
+            end
+        else
+            for i = 1, #self.pool,1 do
+                if self.pool[i]:IsActive() == true then
+                    --print("UPDATE MOFO ! : " .. i)
+                    self.pool[i]:popBubble()
+                end
+            end
+            self.popAll = false
+        end
+
+    end
 end
 
-function BubblePooler:createObject(posX,posY,moveSpeed,moveDir,bubbleIndex)
+function BubblePooler:popAllBubbles()
+    
+    local bubblePostions = {}
+
+    for i = 1, #self.pool,1 do
+        if self.pool[i]:IsActive() == true then
+            --print("UPDATE MOFO ! : " .. i)
+            table.insert(bubblePostions,self.pool[i]:getCurrentPosition())
+            --bubblePostions[i] = self.pool[i]:getCurrentPosition()
+        end
+    end
+
+    self.popAll = true
+
+    return bubblePostions
+end
+
+function BubblePooler:createObject(posX,posY,moveSpeed,moveDir)
 
     local pooledObject = self:getPooledObject()
 
     if pooledObject ~= nil then
-        pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
+        pooledObject:Init(posX,posY,moveSpeed,moveDir)
     else
         pooledObject = Bubble.create()
         --print("bubble created")
-        pooledObject:Init(posX,posY,moveSpeed,moveDir,bubbleIndex)
+        pooledObject:Init(posX,posY,moveSpeed,moveDir)
         table.insert(self.pool,pooledObject)
     end
 end

@@ -26,7 +26,7 @@ function creditsScreen.draw()
 	lg.setFont(font.normal)
 	lg.printf("DESIGN, PROGRAMMING, \"SOUND\" & ART :", (screenWidth/2) - 305, 200,350,"center")
 	lg.printf("ANDRES MRAD (Q-RO)", screenWidth/2, 225,250,"center")
-	lg.printf("CREATED FOR LUDUM DARE 40 :", (screenWidth/2) - 270, 300,350,"center")
+	lg.printf("CONCEPT FOR LUDUM DARE 40 :", (screenWidth/2) - 270, 300,350,"center")
 	lg.printf("THE MORE YOU HAVE THE HARDER IT GET", screenWidth/2, 325,250,"center")
 
 

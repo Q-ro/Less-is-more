@@ -23,6 +23,8 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir)
 
     self.x = posX
     self.y = posY
+    self.PopPositionX = 0
+    self.PopPositionY = 0
     self.moveSpeed = moveSpeed
     self.moveDirection = moveDir
     self.isActive = true
@@ -39,6 +41,24 @@ function Bubble:Init(posX,posY,moveSpeed, moveDir)
     self:loadAnimation("BubblePoppedAnimation","Assets/Images/BubblePopped.png",64,64,0.5)
     self.currentAnimation = self.Animation["BubbleAnimation"]
 
+    return self
+end
+
+function Bubble:Reset()
+
+    self.x = 0
+    self.y = 0
+    self.moveSpeed = 0
+    self.moveDirection = 0
+    self.isActive = false
+    self.isPopped = true
+
+    self.body = nil
+    self.shape = nil
+    self.fix = nil
+
+    self.Animation = {}
+    
     return self
 end
 
@@ -60,6 +80,7 @@ function Bubble:update(dt)
                 --print("bubble inactive")
 
                 self.isActive = false
+                self:Reset()
                 --self.fix = nil
                 return
             end
@@ -71,10 +92,14 @@ function Bubble:update(dt)
             self:move()
         end
             
-            if self.fix:getUserData() == "bubblePopped" and self.isPopped == false then
-                self.isPopped = true
-                self.currentAnimation = self.Animation["BubblePoppedAnimation"]
-            end
+        if self.fix:getUserData() == "bubblePopped" and self.isPopped == false then
+            self.isPopped = true
+            self.PopPositionX = self.body:getX()-32
+            self.PopPositionY = self.body:getY()-32
+            self.body:setPosition(0, 0)
+            self.currentAnimation = self.Animation["BubblePoppedAnimation"]
+            --self.body:setBullet(false)
+        end
 
 
     end
@@ -86,8 +111,11 @@ function Bubble:draw()
     if self.isActive == true then
 
         local spriteNum = math.floor(self.currentAnimation.currentTime / self.currentAnimation.duration * #self.currentAnimation.Quads) + 1
-        lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.body:getX()-32, self.body:getY()-30, 0, 1)
-
+        if self.isPopped then
+            lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.PopPositionX, self.PopPositionY, 0, 1)
+        else
+            lg.draw(self.currentAnimation.spriteSheet, self.currentAnimation.Quads[spriteNum],self.body:getX()-32, self.body:getY()-30, 0, 1)
+        end
     end
 end
 
@@ -110,4 +138,12 @@ function Bubble:move()
         self.body:setPosition(self.x, self.y)
     end
 
+end
+
+function Bubble:getCurrentPosition()
+    return {self.x, self.y}
+end
+
+function Bubble:popBubble()
+    self.fix:setUserData("bubblePopped")
 end
