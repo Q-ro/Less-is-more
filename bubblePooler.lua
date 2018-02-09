@@ -17,36 +17,31 @@ function BubblePooler.create()
     self.popAll = false
 
     return self
-
 end
 
 function BubblePooler:draw()
-
     if #self.pool > 0 then
-        for i = 1, #self.pool,1 do
+        for i = 1, #self.pool, 1 do
             if self.pool[i]:IsActive() == true then
-               -- print("DRAW MOFO")
+                -- print("DRAW MOFO")
                 self.pool[i]:draw()
             end
         end
     end
-
 end
 
 function BubblePooler:update(dt)
-
     --print("About to update bubble")
     if #self.pool > 0 then
-
         if not self.popAll then
-            for i = 1, #self.pool,1 do
+            for i = 1, #self.pool, 1 do
                 if self.pool[i]:IsActive() == true then
                     --print("UPDATE MOFO ! : " .. i)
                     self.pool[i]:update(dt)
                 end
             end
         else
-            for i = 1, #self.pool,1 do
+            for i = 1, #self.pool, 1 do
                 if self.pool[i]:IsActive() == true then
                     --print("UPDATE MOFO ! : " .. i)
                     self.pool[i]:popBubble()
@@ -54,19 +49,17 @@ function BubblePooler:update(dt)
             end
             self.popAll = false
         end
-
     end
 end
 
 function BubblePooler:popAllBubbles()
-    
     local bubblePostions = {}
 
-    for i = 1, #self.pool,1 do
+    for i = 1, #self.pool, 1 do
         if self.pool[i]:IsActive() == true then
             --print("UPDATE MOFO ! : " .. i)
-            table.insert(bubblePostions,self.pool[i]:getCurrentPosition())
-            --bubblePostions[i] = self.pool[i]:getCurrentPosition()
+            table.insert(bubblePostions, self.pool[i]:getCurrentPosition())
+        --bubblePostions[i] = self.pool[i]:getCurrentPosition()
         end
     end
 
@@ -75,29 +68,26 @@ function BubblePooler:popAllBubbles()
     return bubblePostions
 end
 
-function BubblePooler:createObject(posX,posY,moveSpeed,moveDir)
-
+function BubblePooler:createObject(posX, posY, moveSpeed, moveDir)
     local pooledObject = self:getPooledObject()
 
     if pooledObject ~= nil then
-        pooledObject:Init(posX,posY,moveSpeed,moveDir)
+        pooledObject:Init(posX, posY, moveSpeed, moveDir)
     else
         pooledObject = Bubble.create()
         --print("bubble created")
-        pooledObject:Init(posX,posY,moveSpeed,moveDir)
-        table.insert(self.pool,pooledObject)
+        pooledObject:Init(posX, posY, moveSpeed, moveDir)
+        table.insert(self.pool, pooledObject)
     end
 end
 
 function BubblePooler:getPooledObject()
-
     if #self.pool > 0 then
-        for i = 1, #self.pool,1 do
+        for i = 1, #self.pool, 1 do
             if self.pool[i]:IsActive() == false then
                 return self.pool[i]
             end
         end
     end
     return nil
-    
 end

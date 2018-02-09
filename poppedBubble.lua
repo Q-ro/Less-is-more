@@ -12,7 +12,6 @@ local lg = love.graphics
 
 --- Constructor for te bubble "enemies"
 function PoppedBubble.create()
-
     local self = setmetatable({}, PoppedBubble)
 
     self.x = 0.0
@@ -25,11 +24,9 @@ function PoppedBubble.create()
     self.fadeIn = true
 
     return self
-
 end
 
-function PoppedBubble:Init(posX,posY,isSlowDown,duration)
-
+function PoppedBubble:Init(posX, posY, isSlowDown, duration)
     self.x = posX
     self.y = posY
     self.duration = duration
@@ -40,7 +37,6 @@ function PoppedBubble:Init(posX,posY,isSlowDown,duration)
     self.fadeIn = true
 
     return self
-
 end
 
 function PoppedBubble:IsActive()
@@ -50,42 +46,34 @@ end
 function PoppedBubble:draw()
     if self.isActive then
         lg.setFont(font.normal)
-        lg.setColor(50,150,20,self.currentAlpha)
-        lg.printf("SCORE UP", self.x, self.y,120,"center")
+        lg.setColor(50, 150, 20, self.currentAlpha)
+        lg.printf("SCORE UP", self.x, self.y, 120, "center")
 
         if self.isSlowDown then
-            lg.setColor(140,10,30,self.currentAlpha)
-            lg.printf("SPEED DOWN", self.x, self.y+14,120,"center")
+            lg.setColor(140, 10, 30, self.currentAlpha)
+            lg.printf("SPEED DOWN", self.x, self.y + 14, 120, "center")
         end
-        
-        lg.setColor(255,255,255,255)
-    end
 
+        lg.setColor(255, 255, 255, 255)
+    end
 end
 
 function PoppedBubble:update(dt)
-
-    if self.isActive then    
+    if self.isActive then
         if self.fadeIn then
-    
-            self.currentAlpha = clamp(self.currentAlpha+690*dt,0,255)
-    
+            self.currentAlpha = clamp(self.currentAlpha + 690 * dt, 0, 255)
+
             if self.currentAlpha >= 255 then
-    
                 self.fadeIn = false
-                
             end
         else
-            
             self.duration = self.duration - 1 * dt
-    
+
             if self.duration <= 0 then
-                self.currentAlpha = clamp(self.currentAlpha-680 * dt,0,255)
+                self.currentAlpha = clamp(self.currentAlpha - 680 * dt, 0, 255)
             else
                 self.isActive = false
             end
-
         end
     end
-
 end

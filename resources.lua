@@ -8,65 +8,58 @@
 local lg = love.graphics
 
 -- Global fonts
-font={}
+font = {}
 
 -- Global SFX
-sfx={
-	--["confirm"] = love.audio.newSource("Assets/Sounds/Thunder.wav"),
-}
+sfx = {}
 
 --- Load all resources including images, quads sound effects etc.
 function loadResources()
-
 	-- Load the pixel font from image
-	font.normal = loadFont("Font2",
-	" abcdefghijklmnopqrstuvwxyz" ..
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
-	"123456789.,!?-+/():;%&`'*#=[]\"")
-	
+	font.normal =
+		loadFont("Font2", " abcdefghijklmnopqrstuvwxyz" .. "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" .. '123456789.,!?-+/():;%&`\'*#=[]"')
+
 	font.bold = loadFont("boldfont", " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!'-:*@<>+/_$&?")
 
 	font.digital = lg.newFont("Assets/Font/digital-7.ttf", 35)
 
 	lg.setFont(font.bold)
 
-	sfx.confirm = loadSound("Thunder","wav")
-	sfx.bork = loadSound("BorkBork","wav")
-	sfx.pop = loadSound("BubblePop","wav")
-	
+	sfx.confirm = loadSound("Thunder", "wav")
+	sfx.bork = loadSound("BorkBork", "wav")
+	sfx.pop = loadSound("BubblePop", "wav")
 end
 
 ---
 function loadAnimation(image, width, height, duration)
-    local animation = {}
-    animation.spriteSheet = image;
-    animation.Quads = {};
- 
-    for y = 0, image:getHeight() - height, height do
-        for x = 0, image:getWidth() - width, width do
-            table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
-        end
-    end
- 
-    animation.duration = duration or 1
-    animation.currentTime = 0
- 
-    return animation
+	local animation = {}
+	animation.spriteSheet = image
+	animation.Quads = {}
+
+	for y = 0, image:getHeight() - height, height do
+		for x = 0, image:getWidth() - width, width do
+			table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
+		end
+	end
+
+	animation.duration = duration or 1
+	animation.currentTime = 0
+
+	return animation
 end
 
 --- Loads sound samples and effects
 -- @name: name of the file
 -- @ext: the file extension
-function loadSound( name, ext )
-	return love.audio.newSource("Assets/Sounds/".. name .."."..ext)
+function loadSound(name, ext)
+	return love.audio.newSource("Assets/Sounds/" .. name .. "." .. ext)
 end
-
 
 --- Loads sprite a font file
 -- @name: name of the file
 -- @chars: the chars on the font file
-function loadFont( name, chars )
-	return lg.newImageFont(("Assets/Font/".. name ..".png"), chars)
+function loadFont(name, chars)
+	return lg.newImageFont(("Assets/Font/" .. name .. ".png"), chars)
 end
 
 --- Plays a SFX
@@ -85,7 +78,7 @@ function playMusic(name, loop)
 	end
 	-- Play new file
 	music_name = name
-	music = love.audio.newSource("data/sfx/"..name..".ogg", "stream")
+	music = love.audio.newSource("data/sfx/" .. name .. ".ogg", "stream")
 	music:addTags("music")
 	if loop ~= nil then
 		music:setLooping(loop)
@@ -95,7 +88,6 @@ function playMusic(name, loop)
 	love.audio.tags.music.setVolume(config.music_volume)
 	love.audio.play(music)
 end
-
 
 --- Stops the current song playing (if any)
 function stopMusic()

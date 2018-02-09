@@ -5,10 +5,9 @@
 --	# Description:	Exit game confirmation menu		#
 --	#################################################
 
-
 local lg = love.graphics
 
-exitGame={}
+exitGame = {}
 
 function exitGame.enter()
 	love.event.quit()

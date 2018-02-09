@@ -31,14 +31,13 @@ require("howToPlayScreen")
 require("exitGame")
 
 -- A reference to the game states
-local gamestates = 
-{
-	["INGAME"]=inGame,
-	["MAINMENU"]=mainMenu,
-	["SCORESCREEN"]=scoreScreen,
-	["HOWTOPLAY"]=howToPlayScreen,
-	["CREDITS"]=creditsScreen,
-	["EXITGAME"]=exitGame
+local gamestates = {
+	["INGAME"] = inGame,
+	["MAINMENU"] = mainMenu,
+	["SCORESCREEN"] = scoreScreen,
+	["HOWTOPLAY"] = howToPlayScreen,
+	["CREDITS"] = creditsScreen,
+	["EXITGAME"] = exitGame
 }
 
 local lg = love.graphics
@@ -47,11 +46,8 @@ local lg = love.graphics
 
 --- Main load function
 function love.load()
-	 
-	loadResources()	
+	loadResources()
 	setGameState("MAINMENU")
-    
-    
 end
 
 --- Main update function
@@ -60,12 +56,10 @@ function love.update(dt)
 	gamestates[state].update(dt)
 end
 
-
 function love.draw()
 	lg.push()
 	gamestates[state].draw()
 	lg.pop()
-	
 end
 
 --- Main keyboard handdler
@@ -82,10 +76,9 @@ function love.textinput(text)
 	end
 end
 
-
 ---- End region
 
-function setGameState(newState,value)
+function setGameState(newState, value)
 	-- set the current game state
 	state = newState
 	gamestates[state].enter(value)

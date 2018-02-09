@@ -27,37 +27,32 @@ inGame = {}
 
 --- Set the initial values for the menu screen
 function inGame.enter()
-	
 	world = love.physics.newWorld(0, 0, true)
 	world:setCallbacks(beginContact)
 
 	map = Map.create()
-	player = Player.create(lg.getWidth()/2,lg.getHeight()/2,2.7)
+	player = Player.create(lg.getWidth() / 2, lg.getHeight() / 2, 2.7)
 
 	bubblePooler = BubblePooler.create()
 	bubbleTextPooler = BubbleTextPooler.create()
- 
 end
 
 function inGame.update(dt)
-
 	if player:getSpeed() > 0.1 then
-
 		time = time + dt
 		world:update(dt)
 		player:update(dt)
 
-		spawnTimer = spawnTimer  + dt
-		speedTimer = speedTimer  + dt
+		spawnTimer = spawnTimer + dt
+		speedTimer = speedTimer + dt
 
 		if spawnTimer >= 2 then
-
-			for i = 0, math.floor(spawntRate) -1, 1 do
+			for i = 0, math.floor(spawntRate) - 1, 1 do
 				SpawnBubble()
 			end
 
 			if math.floor(time) > 10 then
-				spawntRate = math.floor(time/15)+1
+				spawntRate = math.floor(time / 15) + 1
 			end
 			spawnTimer = 0
 		end
@@ -67,108 +62,86 @@ function inGame.update(dt)
 			speedTimer = 0
 		end
 
-		
 		bubblePooler:update(dt)
 		bubbleTextPooler:update(dt)
-
 	else
 		finalScore = score
 		finalTime = time
 		setGameState("SCORESCREEN")
 	end
 	--bubbles[0]:update(dt)
-
 end
 
 function inGame.draw()
-    
 	lg.push()
 
-	
 	lg.setColor(255, 255, 255)
-	
-	map:draw(15,25)
+
+	map:draw(15, 25)
 	player:draw()
 	bubbleTextPooler:draw()
 	bubblePooler:draw()
 
 	DrawScore()
 
-		--lg.setColor(0, 0, 255)
-		--love.graphics.print(text, 50, 50)
+	--lg.setColor(0, 0, 255)
+	--love.graphics.print(text, 50, 50)
 	lg.pop()
-        
 end
 
-
 ---- End Region
-
 
 ---- Region Input Functions
 
 function inGame.keypressed(k, uni)
-
 	--player:move(k)
-    if k == "down" then
-        
+	if k == "down" then
 		---TODO: Add the sound effect
 		--Play a sound effect
-        --playSound("blip")
-        
-    elseif k == "up" then
-        
+		--playSound("blip")
+	elseif k == "up" then
 		---TODO: Add the sound effect
 		--Play a sound effect
-        --playSound("blip")
-        
+		--playSound("blip")
 	elseif k == "return" or k == " " then
-		
+		-- on scape close the game
 		---TODO: Add the sound effect
 		--Play a sound effect
-	--	playSound("confirm")
-	playSound("bork")
-	
-	if availableBorks > 0 then
-		
-		availableBorks = availableBorks - 1
-		
-		local forcedPopedBubles = bubblePooler:popAllBubbles()
-	
-		score = score  +  #forcedPopedBubles
+		--	playSound("confirm")
+		playSound("bork")
 
-		for i = 1, #forcedPopedBubles,1 do
-			local posX, posY = unpack(forcedPopedBubles[i])
+		if availableBorks > 0 then
+			availableBorks = availableBorks - 1
+
+			local forcedPopedBubles = bubblePooler:popAllBubbles()
+
+			score = score + #forcedPopedBubles
+
+			for i = 1, #forcedPopedBubles, 1 do
+				local posX, posY = unpack(forcedPopedBubles[i])
 				--SpawnText(forcedPopedBubles[i][1].X,forcedPopedBubles[i][2].Y,false, 0.5)
-			SpawnText(posX,posY,false, 0.5)
+				SpawnText(posX, posY, false, 0.5)
+			end
 		end
-
-	end
-	-- on scape close the game
 	elseif k == "escape" then
 		love.event.quit()
 	end
 end
 
 function inGame.action(k)
-    if k == "down" then
-        
+	if k == "down" then
 		---TODO: Add the sound effect
 		--Play a sound effect
-        --playSound("blip")
-        
-    elseif k == "up" then
-        
+		--playSound("blip")
+	elseif k == "up" then
 		---TODO: Add the sound effect
 		--Play a sound effect
-        --playSound("blip")
-        
+		--playSound("blip")
 	elseif k == "jump" or k == "pause" then
-		
+		-- on scape close the game
 		---TODO: Add the sound effect
 		--Play a sound effect
 		playSound("bork")
-
-	-- on scape close the game
 	elseif k == "action" then
 		love.event.quit()
 	end
@@ -177,20 +150,25 @@ end
 ---- End Region
 
 function DrawScore()
-	lg.setFont(font.digital)	
-	lg.printf("SCORE : "..score .. "  SPEED :".. player:getSpeed() .." TIME : " .. math.floor(time),0,screenHeight - 40, screenWidth,"center")
+	lg.setFont(font.digital)
+	lg.printf(
+		"SCORE : " .. score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time),
+		0,
+		screenHeight - 40,
+		screenWidth,
+		"center"
+	)
 end
 
 function SpawnBubble()
-	local spawnX = math.random(screenWidth-20)
-	local spawnY = math.random(screenHeight-100)
+	local spawnX = math.random(screenWidth - 20)
+	local spawnY = math.random(screenHeight - 100)
 	local spawnPos = math.random(4)
 	local moveSpeed = math.random(2) + 1
 	-- local dirX = math.random(10)
 	-- local dirY = math.random(10)
 	local dirX = 0
 	local dirY = 0
-	
 
 	if spawnPos == 1 then
 		spawnX = 0
@@ -201,7 +179,6 @@ function SpawnBubble()
 		spawnY = 0
 		dirY = 1
 		dirX = 0
-		
 	end
 	if spawnPos == 3 then
 		spawnX = screenWidth - 20
@@ -216,19 +193,18 @@ function SpawnBubble()
 		dirX = 0
 	end
 
-	bubblePooler:createObject(spawnX,spawnY,moveSpeed, {dirX,dirY})
+	bubblePooler:createObject(spawnX, spawnY, moveSpeed, {dirX, dirY})
 
 	--local bub = Bubble.create()
 	--table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
-	
+
 	--bubbles[bubblesCounter] = Bubble.create(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
 	--bubblesCounter = #bubbles + 1
 	--text = bubbles[bubblesCounter]
-
 end
 
-function SpawnText(x,y,isSlowDown,duration)
-	bubbleTextPooler:createObject(x,y,isSlowDown,duration)
+function SpawnText(x, y, isSlowDown, duration)
+	bubbleTextPooler:createObject(x, y, isSlowDown, duration)
 	if isSlowDown then
 		playSound("pop")
 	end
@@ -238,31 +214,29 @@ end
 -- Physics world callbacks
 -------------------------------------------------------------------------------
 function beginContact(a, b, coll)
+	local playerFix, bubbleFix
 
-	local playerFix, bubbleFix	
-   
 	-- Check what objects colliding
 	if a:getUserData() == "player" then
 		playerFix = a
 	elseif b:getUserData() == "player" then
 		playerFix = b
 	end
-   
+
 	if a:getUserData() == "bubbleActive" then
 		bubbleFix = a
 	elseif b:getUserData() == "bubbleActive" then
 		bubbleFix = b
 	end
-   
-	-- If player collides with bullet
-	if bubbleFix and playerFix then		
 
-		SpawnText(bubbleFix:getBody():getX(),bubbleFix:getBody():getY(),true, 0.5)
-		
+	-- If player collides with bullet
+	if bubbleFix and playerFix then
+		SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY(), true, 0.5)
+
 		bubbleFix:setUserData("bubblePopped")
 		player:updateSpeed(-0.1)
 		--SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 
 		score = score + 1
 	end
-   end
+end
