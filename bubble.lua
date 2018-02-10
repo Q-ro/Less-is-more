@@ -83,13 +83,22 @@ function Bubble:update(dt)
             self:move()
         end
 
-        if self.fix:getUserData() == "bubblePopped" and self.isPopped == false then
-            self.isPopped = true
-            self.PopPositionX = self.body:getX() - 32
-            self.PopPositionY = self.body:getY() - 32
-            self.body:setPosition(0, 0)
-            self.currentAnimation = self.Animation["BubblePoppedAnimation"]
-        --self.body:setBullet(false)
+        if self.fix ~= nil then
+            if self.fix:getUserData() == "bubblePopped" and self.isPopped == false then
+                self.isPopped = true
+                self.PopPositionX = self.body:getX() - 32
+                self.PopPositionY = self.body:getY() - 32
+                self.body:setPosition(0, 0)
+                self.body = nil
+                self.shape = nil
+                self.fix = nil
+                self.currentAnimation = self.Animation["BubblePoppedAnimation"]
+            --self.body:setBullet(false)
+            end
+        end
+
+        if self.x > lg.getWidth() + 150 or self.y > lg.getHeight() + 150 or self.x < -150 or self.y < -150 then
+            self.isActive = false
         end
     end
 end

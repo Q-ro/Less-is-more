@@ -23,10 +23,27 @@ local screenHeight = lg.getHeight()
 
 inGame = {}
 
+local map = {}
+local player = {}
+local bubblePooler = {}
+local bubbleTextPooler = {}
+
 ---- Region Love functions
 
 --- Set the initial values for the menu screen
 function inGame.enter()
+	score = 0
+	time = 0
+	availableBorks = 3
+	finalScore = 0
+	finalTime = 0
+
+	bubblesCounter = 0
+
+	speedTimer = 0
+	spawnTimer = 0
+	spawntRate = 1
+
 	world = love.physics.newWorld(0, 0, true)
 	world:setCallbacks(beginContact)
 
@@ -152,7 +169,8 @@ end
 function DrawScore()
 	lg.setFont(font.digital)
 	lg.printf(
-		"SCORE : " .. score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time).. " BORKS : "..availableBorks,
+		"SCORE : " ..
+			score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time) .. " BORKS : " .. availableBorks,
 		0,
 		screenHeight - 40,
 		screenWidth,
