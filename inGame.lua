@@ -27,6 +27,7 @@ local map = {}
 local player = {}
 local bubblePooler = {}
 local bubbleTextPooler = {}
+local timeForRandom = false
 
 ---- Region Love functions
 
@@ -72,6 +73,10 @@ function inGame.update(dt)
 				spawntRate = math.floor(time / 15) + 1
 			end
 			spawnTimer = 0
+		end
+
+		if time > 45 and timeForRandom == false then
+			timeForRandom = true
 		end
 
 		if speedTimer >= 3 then
@@ -183,8 +188,6 @@ function SpawnBubble()
 	local spawnY = math.random(screenHeight - 100)
 	local spawnPos = math.random(4)
 	local moveSpeed = math.random(2) + 1
-	-- local dirX = math.random(10)
-	-- local dirY = math.random(10)
 	local dirX = 0
 	local dirY = 0
 
@@ -211,6 +214,18 @@ function SpawnBubble()
 		dirX = 0
 	end
 
+	if timeForRandom then
+		local spawnDiagonal = math.random(0, 1)
+		moveSpeed = math.random(6) + 1
+		if spawnDiagonal == 1 then
+			if dirX == 0 then
+				dirX = dirY
+			elseif dirY == 0 then
+				dirY = dirX
+			end
+		end
+	end
+
 	bubblePooler:createObject(spawnX, spawnY, moveSpeed, {dirX, dirY})
 
 	--local bub = Bubble.create()
@@ -223,6 +238,7 @@ end
 
 function SpawnText(x, y, isSlowDown, duration)
 	bubbleTextPooler:createObject(x, y, isSlowDown, duration)
+
 	if isSlowDown then
 		playSound("pop")
 	end
