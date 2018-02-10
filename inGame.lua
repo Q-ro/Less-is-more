@@ -227,13 +227,6 @@ function SpawnBubble()
 	end
 
 	bubblePooler:createObject(spawnX, spawnY, moveSpeed, {dirX, dirY})
-
-	--local bub = Bubble.create()
-	--table.insert(bubbles,bub:Init(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter))
-
-	--bubbles[bubblesCounter] = Bubble.create(spawnX,spawnY,moveSpeed, {dirX,dirY},bubblesCounter)
-	--bubblesCounter = #bubbles + 1
-	--text = bubbles[bubblesCounter]
 end
 
 function SpawnText(x, y, isSlowDown, duration)
