@@ -20,6 +20,7 @@ function howToPlayScreen.enter()
 	bubble = loadAnimation("Assets/Images/Bubble.png", 64, 64, 1)
 
 	instructionsImage = love.graphics.newImage("Assets/Images/HowToPlay.png")
+	enterImage = love.graphics.newImage("Assets/Images/Enter.png")
 end
 
 function howToPlayScreen.update(dt)
@@ -50,16 +51,18 @@ function howToPlayScreen.draw()
 
 	--draw borko here
 	local doggoSpriteNum = math.floor(doggo.currentTime / doggo.duration * #doggo.Quads) + 1
-	lg.draw(doggo.spriteSheet, doggo.Quads[doggoSpriteNum], 250, (lg.getHeight() / 2) - 90, 0, 1)
+	lg.draw(doggo.spriteSheet, doggo.Quads[doggoSpriteNum], 210, (screenHeight/ 2) - 90, 0, 1)
 
 	local bubbleSpriteNum = math.floor(bubble.currentTime / bubble.duration * #bubble.Quads) + 1
-	lg.draw(bubble.spriteSheet, bubble.Quads[bubbleSpriteNum], lg.getHeight(), (lg.getHeight() / 2) - 80, 0, 1)
-	lg.draw(bubble.spriteSheet, bubble.Quads[bubbleSpriteNum], 60, (lg.getHeight() / 2) + 150, 0, 1)
+	lg.draw(bubble.spriteSheet, bubble.Quads[bubbleSpriteNum], screenWidth/2 + 200, (screenHeight / 2) - 80, 0, 1)
+	lg.draw(bubble.spriteSheet, bubble.Quads[bubbleSpriteNum], 60, (screenHeight / 2) + 150, 0, 1)
 
-	lg.draw(instructionsImage, 191, 132, 0, 1, 1, 150, -50)
+	lg.draw(instructionsImage, 191, 132, 0, 1, 1, 170, -50)
+	lg.draw(enterImage, screenWidth/2 + 95, 170, 0, 1, 1, 170, -50)
 
 	lg.setFont(font.digital)
-	lg.printf("Move Doggo", 0, screenHeight - 480, screenWidth - 485, "center")
+	lg.printf("Move Doggo", 0, screenHeight - 480, screenWidth - 595, "center")
+	lg.printf("Bork", 0, screenHeight - 480 , screenWidth/2 + 365 , "center")
 	lg.printf("=", 0, screenHeight / 2 + 175, 300, "center")
 	lg.printf("Collect Bubbles", 0, screenHeight - 480, screenWidth + 465, "center")
 	lg.printf("0 Speed = Game Over ", 0, screenHeight - 120, screenWidth + 430, "center")

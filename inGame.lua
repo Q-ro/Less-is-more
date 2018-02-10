@@ -152,7 +152,7 @@ end
 function DrawScore()
 	lg.setFont(font.digital)
 	lg.printf(
-		"SCORE : " .. score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time),
+		"SCORE : " .. score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time).. " BORKS : "..availableBorks,
 		0,
 		screenHeight - 40,
 		screenWidth,
