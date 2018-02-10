@@ -27,6 +27,10 @@ function creditsScreen.draw()
 	lg.printf("CONCEPT FOR LUDUM DARE 40 :", (screenWidth / 2) - 270, 300, 350, "center")
 	lg.printf("THE MORE YOU HAVE THE HARDER IT GET", screenWidth / 2, 325, 250, "center")
 
+	lg.setColor(0, 220, 255)
+	lg.printf("Check my Stuff at : brainfreezestudios.com", 200, screenHeight / 2 +200, 400, "center")
+	lg.setColor(255, 255, 255)
+
 	lg.pop()
 end
 
