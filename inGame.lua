@@ -44,6 +44,7 @@ function inGame.enter()
 	speedTimer = 0
 	spawnTimer = 0
 	spawntRate = 1
+	timeForRandom = false
 
 	world = love.physics.newWorld(0, 0, true)
 	world:setCallbacks(beginContact)
