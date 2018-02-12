@@ -9,6 +9,7 @@ local lg = love.graphics
 local score = 0
 local time = 0
 local availableBorks = 3
+local currentSpeed = 2.0
 finalScore = 0
 finalTime = 0
 
@@ -41,6 +42,8 @@ function inGame.enter()
 
 	bubblesCounter = 0
 
+	currentSpeed = 2.0
+
 	speedTimer = 0
 	spawnTimer = 0
 	spawntRate = 1
@@ -57,7 +60,9 @@ function inGame.enter()
 end
 
 function inGame.update(dt)
-	if player:getSpeed() > 0.1 then
+
+	-- if player:getSpeed() > 0.1 then
+	if currentSpeed > 0.1 then
 		time = time + dt
 		world:update(dt)
 		player:update(dt)
@@ -70,18 +75,19 @@ function inGame.update(dt)
 				SpawnBubble()
 			end
 
-			if math.floor(time) > 10 then
-				spawntRate = math.floor(time / 15) + 1
+			if math.floor(time) > 6 then
+				spawntRate = math.floor(time / 10) + 1
 			end
 			spawnTimer = 0
 		end
 
-		if time > 45 and timeForRandom == false then
+		if time > 30 and timeForRandom == false then
 			timeForRandom = true
 		end
 
 		if speedTimer >= 3 then
 			player:updateSpeed(0.1)
+			currentSpeed = clamp(currentSpeed * 10 + 0.1 * 10, 0, 20) / 10
 			speedTimer = 0
 		end
 
@@ -176,7 +182,8 @@ function DrawScore()
 	lg.setFont(font.digital)
 	lg.printf(
 		"SCORE : " ..
-			score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time) .. " BORKS : " .. availableBorks,
+			--score .. "  SPEED :" .. player:getSpeed() .. " TIME : " .. math.floor(time) .. " BORKS : " .. availableBorks,
+			score .. "  SPEED :" .. currentSpeed .. " TIME : " .. math.floor(time) .. " BORKS : " .. availableBorks,
 		0,
 		screenHeight - 40,
 		screenWidth,
@@ -263,6 +270,7 @@ function beginContact(a, b, coll)
 
 		bubbleFix:setUserData("bubblePopped")
 		player:updateSpeed(-0.1)
+		currentSpeed = currentSpeed -0.1
 		--SpawnText(bubbleFix:getBody():getX(), bubbleFix:getBody():getY())
 
 		score = score + 1
