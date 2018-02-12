@@ -153,5 +153,7 @@ function Bubble:getCurrentPosition()
 end
 
 function Bubble:popBubble()
-    self.fix:setUserData("bubblePopped")
+    if self.fix ~= nil then
+        self.fix:setUserData("bubblePopped")
+    end
 end
