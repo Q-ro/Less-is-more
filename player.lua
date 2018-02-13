@@ -45,7 +45,7 @@ end
 function Player:draw()
     --lg.setColor(255, 0, 0)
     --lg.circle("line", self.body:getX(),self.body:getY(), self.shape:getRadius(), 20)
-    lg.setColor(255, 255, 255)
+    --lg.setColor(255, 255, 255)
 
     --love.graphics.polygon("line", static.b:getWorldPoints(static.s:getPoints()))
 

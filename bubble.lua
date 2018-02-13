@@ -88,7 +88,7 @@ function Bubble:update(dt)
                 self.isPopped = true
                 self.PopPositionX = self.body:getX() - 32
                 self.PopPositionY = self.body:getY() - 32
-                self.body:setPosition(0, 0)
+                -- self.body:setPosition(0, 0)
                 self.body = nil
                 self.shape = nil
                 self.fix = nil
@@ -97,7 +97,7 @@ function Bubble:update(dt)
             end
         end
 
-        if self.x > lg.getWidth() + 150 or self.y > lg.getHeight() + 150 or self.x < -150 or self.y < -150 then
+        if self.x > lg.getWidth() + 50 or self.y > lg.getHeight() + 50 or self.x < -50 or self.y < -50 then
             self.isActive = false
         end
     end
